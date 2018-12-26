@@ -1,0 +1,9 @@
+{
+  "name": "sandbox-osmium",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "osmium": "^0.5.7"
+  }
+}
