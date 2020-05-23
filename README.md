@@ -1,5 +1,15 @@
 # SANDBOX OSMIUM
 
-OSM Data: http://download.geofabrik.de/asia.html
+Build POI only vector tile from `osm.pbf`.
 
-Put data to ./osms
+## Prerequisite
+
+- tippecanoe https://github.com/mapbox/tippecanoe
+- tileserver-gl https://github.com/maptiler/tileserver-gl
+
+## steps
+
+1. Download `japan-latest.osm.pbf` from http://download.geofabrik.de/asia/japan.html.
+2. `$ npm run build`
+3. `$ less dist/output.ndjson`
+4. `$ tileserver-gl dist/out.mbtiles`

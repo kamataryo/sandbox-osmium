@@ -5,5 +5,8 @@
   "license": "MIT",
   "dependencies": {
     "osmium": "^0.5.7"
+  },
+  "scripts": {
+    "build": "node index.js && tippecanoe -zg -o dist/out.mbtiles --drop-densest-as-needed dist/output.ndjson"
   }
 }

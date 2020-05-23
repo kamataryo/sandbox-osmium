@@ -64,3 +64,7 @@ typings/
 
 # download data
 data/
+
+# build assets
+dist/*.ndjson
+dist/*.mbtiles
