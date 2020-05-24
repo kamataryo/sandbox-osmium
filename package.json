@@ -4,9 +4,11 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "osmium": "^0.5.7"
+    "osmium": "^0.5.7",
+    "rimraf": "^3.0.2"
   },
   "scripts": {
-    "build": "node index.js && tippecanoe -zg -o dist/out.mbtiles --drop-densest-as-needed dist/output.ndjson"
+    "build:ndjson": "rimraf ./dist/out.ndjson && node ./index.js",
+    "build:tile": "rimraf ./dist/out.mbtiles && tippecanoe -zg -o ./dist/out.mbtiles --drop-densest-as-needed ./dist/out.ndjson"
   }
 }

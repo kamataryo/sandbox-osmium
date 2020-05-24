@@ -1,19 +1,17 @@
 const osmium = require("osmium");
 const path = require("path");
-const filePath = path.join(__dirname, "data", "japan-latest.osm.pbf");
 const fs = require("fs");
-const handler = new osmium.Handler();
 
+const input = path.join(process.argv[2]);
 const output = path.join(__dirname, "dist", "output.ndjson");
-try {
-  fs.unlinkSync(output);
-} catch (error) {
-  // delete if exists
-}
+
 const fd = fs.openSync(output, "a");
+
+const handler = new osmium.Handler();
 
 let nodeCount = 0;
 const tagCount = {};
+
 handler.on("init", () => console.log("init!"));
 handler.on("node", (node) => {
   nodeCount++;
@@ -21,6 +19,7 @@ handler.on("node", (node) => {
   const geometry = node.geojson();
   const tags = node.tags();
 
+  // stat
   Object.keys(tags).forEach((tag) => {
     if (tagCount[tag]) {
       tagCount[tag]++;
@@ -29,6 +28,7 @@ handler.on("node", (node) => {
     }
   });
 
+  // eliminate non POI
   if (Object.keys(tags).length === 0) {
     return;
   } else {
@@ -41,11 +41,16 @@ handler.on("node", (node) => {
   }
 });
 
-const reader = new osmium.Reader(filePath);
+const reader = new osmium.Reader(input);
 osmium.apply(reader, handler);
 
 fs.closeSync(fd);
 console.log("done!");
+
+// stats
 console.log("Nodes count: " + nodeCount);
 console.log("Tags Count:");
 console.log(JSON.stringify(tagCount, null, 2));
+const entries = Object.entries(tagCount);
+entries.sort(([, count_a], [, count_b]) => count_b - count_a);
+console.log(entries.map((entry) => entry.join(",")).join("\n"));
