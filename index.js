@@ -3,7 +3,7 @@ const path = require("path");
 const fs = require("fs");
 
 const input = path.join(process.argv[2]);
-const output = path.join(__dirname, "dist", "output.ndjson");
+const output = path.join(__dirname, "dist", "out.ndjson");
 
 const fd = fs.openSync(output, "a");
 
@@ -29,9 +29,7 @@ handler.on("node", (node) => {
   });
 
   // eliminate non POI
-  if (Object.keys(tags).length === 0) {
-    return;
-  } else {
+  if (Object.keys(tags).includes("name")) {
     const feature = {
       type: "Feature",
       properties: { nid: nid, ...tags },
